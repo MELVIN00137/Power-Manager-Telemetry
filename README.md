@@ -1,269 +1,137 @@
-# Power-Manager-Telemetry
-Intel Unnati Project
+# Power Management Telemetry Analysis
 
-## Project Description: Power Management Telemetry Analysis
+## Project Overview
+The Power Management Telemetry Analysis project aims to monitor, limit, and analyze CPU usage of applications running on a macOS system. By simulating CPU limitations (80%, 50%, and 30%) and collecting telemetry data, we compare the system performance under these conditions. The data collected includes CPU and memory usage for each application, as well as the battery status. The comparison and analysis are visualized using various Python libraries.
 
-### Project Overview
-
-This project aims to monitor, limit, and analyze CPU usage of applications running on a macOS system. By simulating CPU limitations (80%, 50%, and 30%) and collecting telemetry data, we compare the system performance under these conditions. The data collected includes CPU and memory usage for each application, and the battery status. The comparison and analysis are visualized using various Python libraries.
-
-### Objective
-
-- **Monitor**: Collect telemetry data including CPU and memory usage for each running application and battery status.
+## Objective
+- **Monitor**: Collect telemetry data, including CPU and memory usage for each running application and battery status.
 - **Limit**: Simulate CPU usage limits by adjusting process priorities to 80%, 50%, and 30%.
 - **Analyze**: Compare the CPU usage before and after applying the limitations.
 - **Visualize**: Present the results using visualizations for better understanding and insights.
 
-### Tools and Packages Used
+## Tools and Packages Used
 
-1. **psutil**:
-   - **Description**: psutil (process and system utilities) is a cross-platform library for retrieving information on running processes and system utilization (CPU, memory, disks, network, sensors) in Python.
-   - **Installation**: 
-     ```bash
-     pip install psutil
-     ```
-   - **Usage**: Used for collecting system and process-level telemetry data such as CPU and memory usage.
+### Tools
+- **JupyterLab and Google Colab**: Used for coding, data collection, and analysis.
+- **Activity Monitor**: Used to monitor the performance of the macOS system.
 
-2. **csv**:
-   - **Description**: The csv module in Python provides functionality to read from and write to CSV files, allowing data to be easily stored and transferred.
-   - **Usage**: Used for saving the collected telemetry data to CSV files for further analysis.
+### Packages
+- **psutil**: A cross-platform library for retrieving information on running processes and system utilization (CPU, memory, disks, network, sensors) in Python.
+    - **Installation**: `pip install psutil`
+    - **Usage in This Project**:
+        - Collecting system and process-level telemetry data:
+            - CPU Usage: `psutil.cpu_percent(interval=1)` and `psutil.Process(pid).cpu_percent(interval=1)`
+            - Memory Usage: `psutil.virtual_memory()` and `psutil.Process(pid).memory_percent()`
+            - Battery Status: `psutil.sensors_battery()`
+        - Monitoring and logging data using `psutil.process_iter()`
 
-3. **datetime**:
-   - **Description**: The datetime module supplies classes for manipulating dates and times in both simple and complex ways.
-   - **Usage**: Used for timestamping the collected telemetry data.
+- **csv**: A module in Python that provides functionality to read from and write to CSV files.
+    - **Usage**: Saving the collected telemetry data to CSV files for further analysis.
 
-4. **subprocess**:
-   - **Description**: The subprocess module allows you to spawn new processes, connect to their input/output/error pipes, and obtain their return codes.
-   - **Usage**: Used for simulating CPU usage limitations by adjusting process priorities using system commands.
+- **datetime**: Supplies classes for manipulating dates and times.
+    - **Usage**: Timestamping the collected telemetry data.
 
-5. **pandas**:
-   - **Description**: pandas is a powerful, fast, flexible, and easy-to-use open-source data analysis and data manipulation library built on top of the Python programming language.
-   - **Installation**: 
-     ```bash
-     pip install pandas
-     ```
-   - **Usage**: Used for data manipulation and analysis, including reading CSV files, grouping data, and calculating averages.
+- **subprocess**: Allows spawning new processes, connecting to their input/output/error pipes, and obtaining their return codes.
+    - **Usage**: Simulating CPU usage limitations by adjusting process priorities using system commands.
 
-6. **matplotlib**:
-   - **Description**: matplotlib is a comprehensive library for creating static, animated, and interactive visualizations in Python.
-   - **Installation**: 
-     ```bash
-     pip install matplotlib
-     ```
-   - **Usage**: Used for creating visualizations to present the comparison results of CPU usage.
+- **pandas**: A powerful data analysis and manipulation library built on top of the Python programming language.
+    - **Installation**: `pip install pandas`
+    - **Usage**: Data manipulation and analysis, including reading CSV files, grouping data, and calculating averages.
 
-7. **seaborn**:
-   - **Description**: seaborn is a Python visualization library based on matplotlib that provides a high-level interface for drawing attractive statistical graphics.
-   - **Installation**: 
-     ```bash
-     pip install seaborn
-     ```
-   - **Usage**: Used for creating more refined and aesthetically pleasing visualizations.
+- **matplotlib**: A comprehensive library for creating static, animated, and interactive visualizations in Python.
+    - **Installation**: `pip install matplotlib`
+    - **Usage**: Creating visualizations to present the comparison results of CPU usage.
 
-### Data Collection
+- **seaborn**: A Python visualization library based on matplotlib that provides a high-level interface for drawing attractive statistical graphics.
+    - **Installation**: `pip install seaborn`
+    - **Usage**: Creating refined and aesthetically pleasing visualizations.
 
-The data collection process involves monitoring the system for a specified duration (e.g., 5 minutes) and recording the CPU and memory usage for each application, as well as the battery status. Here is the script for collecting initial data and then limiting the CPU usage to 80%, 50%, and 30%.
+## Data Collection
+The data collection process involves monitoring the system for a specified duration (e.g., 5 minutes) and recording the CPU and memory usage for each application, as well as the battery status.
 
-#### Initial Data Collection
+### Steps:
+1. **Initial Data Collection**:
+    - Monitor CPU and memory usage for each running application.
+    - Record battery status.
+    - Log this data at regular intervals (e.g., every minute) for a specified duration.
 
-```python
-import psutil
-import time
-import csv
-from datetime import datetime
-import subprocess
+      <img width="1295" alt="image" src="https://github.com/user-attachments/assets/403a1187-a52c-4083-b465-404757f5f43d">
 
-def get_battery_status():
-    battery = psutil.sensors_battery()
-    if battery is not None:
-        return battery.percent
-    return None
 
-def get_cpu_usage_per_app():
-    app_cpu_usage = []
-    for proc in psutil.process_iter(['pid', 'name', 'cpu_percent']):
-        try:
-            app_cpu_usage.append({
-                'pid': proc.info['pid'],
-                'name': proc.info['name'],
-                'cpu_percent': proc.info['cpu_percent'],
-                'memory_percent': proc.memory_percent(),
-                'cpu_time': proc.cpu_times(),
-                'num_threads': proc.num_threads()
-            })
-        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-            pass
-    return app_cpu_usage
+2. **Limiting CPU Usage and Collecting Data**:
+    - Simulate CPU usage limitations by adjusting process priorities to 80%, 50%, and 30%.
+    - Collect and log the same telemetry data under these conditions.
+      
+80%:
 
-def collect_data(file_name, duration):
-    with open(file_name, 'w', newline='') as csvfile:
-        fieldnames = ['timestamp', 'battery_percent', 'pid', 'app_name', 'cpu_percent', 'memory_percent', 'cpu_time', 'num_threads']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader()
-        
-        end_time = time.time() + duration  # Collect data for the specified duration
-        while time.time() < end_time:
-            timestamp = datetime.now().isoformat()
-            battery_percent = get_battery_status()
-            app_cpu_usage = get_cpu_usage_per_app()
+<img width="1293" alt="image" src="https://github.com/user-attachments/assets/60495136-e21b-4836-97ee-3449cd09a389">
 
-            for app in app_cpu_usage:
-                writer.writerow({
-                    'timestamp': timestamp,
-                    'battery_percent': battery_percent if battery_percent is not None else 'N/A',
-                    'pid': app['pid'],
-                    'app_name': app['name'],
-                    'cpu_percent': app['cpu_percent'],
-                    'memory_percent': app['memory_percent'],
-                    'cpu_time': app['cpu_time'],
-                    'num_threads': app['num_threads']
-                })
-            time.sleep(60)  # Collect data every 60 seconds
+<img width="675" alt="image" src="https://github.com/user-attachments/assets/68e2e697-25cf-499d-8751-87c24c71d0a6">
 
-def main():
-    duration = 300  # Duration to collect data in seconds (5 minutes)
-    file_name = 'app_power_telemetry_initial.csv'
-    collect_data(file_name, duration)
+<img width="672" alt="image" src="https://github.com/user-attachments/assets/12ec63f4-886f-4beb-84fd-ac33702c17b3">
 
-if __name__ == '__main__':
-    main()
-```
 
-#### Limiting CPU Usage and Collecting Data
+50%:
 
-The following scripts limit the CPU usage to 80%, 50%, and 30%, respectively, and collect the corresponding telemetry data.
+<img width="1293" alt="image" src="https://github.com/user-attachments/assets/3bb23c1c-3def-40c7-b0b2-81b8dc0eacb4">
 
-```python
-# The code is the same as the above but with `limit_cpu_usage(proc.info['pid'], 80)`
-def limit_cpu_usage(pid, cpu_percent):
-    # Simulate CPU usage limitation by adjusting process priority
-    subprocess.run(['renice', '-n', str(cpu_percent), '-p', str(pid)], stdout=subprocess.PIPE)
+<img width="659" alt="image" src="https://github.com/user-attachments/assets/7d689cd7-ddd1-451c-a618-0ec53c59bd2f">
 
-def main():
-    duration = 300  # Duration to collect data in seconds (5 minutes)
-    file_prefix = 'app_power_telemetry'
-    
-    # Adjust CPU usage limits (simulate by adjusting process priorities)
-    processes = psutil.process_iter(['pid', 'name'])
-    for proc in processes:
-        try:
-            if proc.info['name']:  # Only adjust for processes with a name
-                limit_cpu_usage(proc.info['pid'], 80)
-        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-            pass
-    
-    # Collect data after limiting CPU usage
-    collect_data(f'{file_prefix}_limited_80.csv', duration)
+<img width="659" alt="image" src="https://github.com/user-attachments/assets/eb770b15-6f2a-477b-8c16-36b7b59a247b">
 
-if __name__ == '__main__':
-    main()
-```
 
-Repeat the above script for 50% and 30% CPU limits by changing the `cpu_percent` parameter in the `limit_cpu_usage` function call.
 
-### Data Analysis and Comparison
 
+30%:
+
+<img width="1293" alt="image" src="https://github.com/user-attachments/assets/4b717192-fe72-4b92-842e-547d2e1a6698">
+
+
+
+
+
+<img width="677" alt="image" src="https://github.com/user-attachments/assets/15ae29be-ca45-4c44-949a-bcaa17ed2823">
+
+
+
+
+
+<img width="659" alt="image" src="https://github.com/user-attachments/assets/2cdf37b1-a1f8-4436-ad58-ba38fffbb030">
+
+
+
+## Data Analysis and Comparison
 After collecting the data, we analyze and compare the CPU usage for each limitation.
 
-```python
-import pandas as pd
+### Steps:
+1. **Load the Data**: Load the CSV files containing telemetry data for different CPU limitations.
+2. **Calculate Average CPU Usage**: Group the data by application name and calculate the average CPU usage.
+3. **Compare the CPU Usage**: Calculate the change in CPU usage before and after applying the limitations.
+4. **Combine the Comparison Results**: Merge the data into a single DataFrame for comprehensive comparison.
 
-# Load the data for different CPU limitations
-initial_data = pd.read_csv('app_power_telemetry_initial.csv')
-limited_data_80 = pd.read_csv('app_power_telemetry_limited_80.csv')
-limited_data_50 = pd.read_csv('app_power_telemetry_limited_50.csv')
-limited_data_30 = pd.read_csv('app_power_telemetry_limited_30.csv')
+<img width="599" alt="Screenshot 2024-07-12 at 10 18 35 PM" src="https://github.com/user-attachments/assets/f3e8b85b-4176-4e45-ad3f-68079ba90691">
 
-# Function to group by application name and calculate the average CPU usage
-def calculate_avg_cpu(data):
-    return data.groupby('app_name')['cpu_percent'].mean()
 
-# Calculate average CPU usage for initial and limited data
-initial_avg_cpu = calculate_avg_cpu(initial_data)
-limited_avg_cpu_80 = calculate_avg_cpu(limited_data_80)
-limited_avg_cpu_50 = calculate_avg_cpu(limited_data_50)
-limited_avg_cpu_30 = calculate_avg_cpu(limited_data_30)
+## Visualization
+Visualizations are created to present the comparison of CPU usage before and after applying the CPU limitations.
 
-# Compare the average CPU usage and calculate the change for each limitation
-comparison_80 = pd.DataFrame({
-    'initial_avg_cpu': initial_avg_cpu,
-    'limited_avg_cpu_80': limited_avg_cpu_80
-}).reset_index()
-comparison_80['cpu_usage_change_80'] = comparison_80['limited_avg_cpu_80'] - comparison_80['initial_avg_cpu']
+### Steps:
+1. **Set Up the Visualization**: Use matplotlib and seaborn to create visualizations.
+2. **Bar Plot**: Create bar plots to show the change in CPU usage for the top applications.
+3. **Labels and Title**: Add labels and titles for clarity.
+4. **Save and Display**: Save the visualizations to files and display them.
 
-comparison_50 = pd.DataFrame({
-    'initial_avg_cpu': initial_avg_cpu,
-    'limited_avg_cpu_50': limited_avg_cpu_50
-}).reset_index()
-comparison_50['cpu_usage_change_50'] = comparison_50['limited_avg_cpu_50'] - comparison_50['initial_avg_cpu']
+<img width="1289" alt="image" src="https://github.com/user-attachments/assets/7c9ab9a0-fe1e-48ee-a905-c2ed25103a15">
 
-comparison_30 = pd.DataFrame({
-    'initial_avg_cpu': initial_avg_cpu,
-    'limited_avg_cpu_30': limited_avg_cpu_30
-}).reset_index()
-comparison_30['cpu_usage_change_30'] = comparison_30['limited_avg_cpu_30'] - comparison_30['initial_avg_cpu']
 
-# Combine all comparisons into a single DataFrame
-comparison_combined = pd.merge(comparison_80, comparison_50, on='app_name', suffixes=('_80', '_50'))
-comparison_combined = pd.merge(comparison_combined, comparison_30, on='app_name')
+<img width="1301" alt="image" src="https://github.com/user-attachments/assets/365ff364-b079-484e-8623-23616a941ae8">
 
-# Print the comparison results
-print(comparison_combined)
 
-# Save the comparison results to a CSV file
-comparison_combined.to_csv('cpu_usage_comparison.csv', index=False)
-```
-
-### Visualization
-
-To visualize the comparison of CPU usage before and after applying the CPU limitations, we
-
- can use the matplotlib and seaborn libraries.
-
-```python
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-# Load the comparison data
-comparison_data = pd.read_csv('cpu_usage_comparison.csv')
-
-# Filter the top 50 applications by initial CPU usage
-top_50_apps = comparison_data.nlargest(50, 'initial_avg_cpu')
-
-# Set up the matplotlib figure
-plt.figure(figsize=(12, 8))
-
-# Create a bar plot
-sns.barplot(x='app_name', y='cpu_usage_change_80', data=top_50_apps, color='b', label='80% Limit')
-sns.barplot(x='app_name', y='cpu_usage_change_50', data=top_50_apps, color='r', label='50% Limit')
-sns.barplot(x='app_name', y='cpu_usage_change_30', data=top_50_apps, color='g', label='30% Limit')
-
-# Add labels and title
-plt.xlabel('Application Name')
-plt.ylabel('Change in CPU Usage (%)')
-plt.title('Comparison of CPU Usage Change Under Different Limitations')
-plt.legend()
-
-# Rotate the x labels for better readability
-plt.xticks(rotation=90)
-
-# Display the plot
-plt.tight_layout()
-plt.show()
-
-# Save the plot to a file
-plt.savefig('cpu_usage_comparison_visualization.png')
-```
-
-**Insert Visualization Here**
-
-### Conclusion
-
+## Conclusion
 This project successfully demonstrates the process of monitoring, limiting, and analyzing CPU usage on a macOS system. By using Python and various libraries, we were able to collect, analyze, and visualize the telemetry data, providing valuable insights into system performance under different CPU limitations. This approach can be extended to other performance metrics and different operating systems for more comprehensive system analysis.
 
-### Future Work
 
+## Future Work
 - Implement similar scripts for other operating systems like Windows and Linux.
 - Expand the analysis to include other system metrics such as disk I/O and network usage.
 - Develop a real-time dashboard to monitor and visualize system performance continuously.
