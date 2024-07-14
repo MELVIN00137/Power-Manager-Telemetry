@@ -123,11 +123,8 @@ Visualizations are created to present the comparison of CPU usage before and aft
 
 <img width="905" alt="image" src="https://github.com/user-attachments/assets/b25f052e-3cee-4f01-9ce8-14aed7ad047a">
 
+<img width="905" alt="image" src="https://github.com/user-attachments/assets/fb08031a-0e07-48b2-a619-9de2d51cf79a">
 
-<img width="1289" alt="image" src="https://github.com/user-attachments/assets/7c9ab9a0-fe1e-48ee-a905-c2ed25103a15">
-
-
-<img width="1301" alt="image" src="https://github.com/user-attachments/assets/365ff364-b079-484e-8623-23616a941ae8">
 
 
 ## Conclusion
