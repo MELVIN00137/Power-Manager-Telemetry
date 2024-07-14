@@ -121,6 +121,9 @@ Visualizations are created to present the comparison of CPU usage before and aft
 3. **Labels and Title**: Add labels and titles for clarity.
 4. **Save and Display**: Save the visualizations to files and display them.
 
+<img width="905" alt="image" src="https://github.com/user-attachments/assets/b25f052e-3cee-4f01-9ce8-14aed7ad047a">
+
+
 <img width="1289" alt="image" src="https://github.com/user-attachments/assets/7c9ab9a0-fe1e-48ee-a905-c2ed25103a15">
 
 
