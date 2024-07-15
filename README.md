@@ -47,7 +47,8 @@ The Power Management Telemetry Analysis project aims to monitor, limit, and anal
     - **Usage**: Creating refined and aesthetically pleasing visualizations.
 
 ## Architecture Diagram
-![Architecture Diagram](https://github.com/user-attachments/assets/39dd778c-5ae7-4f92-8d82-f31d3e376ea1)
+![Architecture Digram](https://github.com/user-attachments/assets/fe4f7a67-dac0-4854-97c7-86ae64c6572e)
+
 
 
 
