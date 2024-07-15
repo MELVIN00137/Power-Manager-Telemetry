@@ -135,6 +135,9 @@ Visualizations are created to present the comparison of CPU usage before and aft
 ## Conclusion
 This project offers a user-friendly solution compatible with Windows, macOS, and Linux, aimed at maximizing system performance and battery life. By intelligently managing CPU and power usage, it minimizes lag during heavy software usage, promotes energy efficiency, and enhances overall user productivity and satisfaction.
 
+This project effectively tackled the challenge of high CPU usage by applications through comprehensive data collection, analysis, and visualization. Utilizing Python and its powerful libraries, we gathered real-time data on CPU and memory usage, applied various CPU limits, and compared the results to observe the impact of these limits. Our approach provided clear insights into which applications were consuming the most resources and how different CPU limits affected overall system performance.
+
+The visualizations created with matplotlib and seaborn highlighted the differences in CPU usage across various scenarios, offering valuable insights into the benefits of imposing CPU limits. This project demonstrated a robust methodology for optimizing system performance, providing actionable recommendations for managing CPU usage in real-world environments.
 
 ## Future Work
 - Implement similar scripts for other operating systems like Windows and Linux.
