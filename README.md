@@ -133,7 +133,7 @@ Visualizations are created to present the comparison of CPU usage before and aft
 
 
 ## Conclusion
-This project successfully demonstrates the process of monitoring, limiting, and analyzing CPU usage on a macOS system. By using Python and various libraries, we were able to collect, analyze, and visualize the telemetry data, providing valuable insights into system performance under different CPU limitations. This approach can be extended to other performance metrics and different operating systems for more comprehensive system analysis.
+This project offers a user-friendly solution compatible with Windows, macOS, and Linux, aimed at maximizing system performance and battery life. By intelligently managing CPU and power usage, it minimizes lag during heavy software usage, promotes energy efficiency, and enhances overall user productivity and satisfaction.
 
 
 ## Future Work
