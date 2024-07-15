@@ -46,6 +46,11 @@ The Power Management Telemetry Analysis project aims to monitor, limit, and anal
     - **Installation**: `pip install seaborn`
     - **Usage**: Creating refined and aesthetically pleasing visualizations.
 
+## Architecture Diagram
+![Architecture Diagram](https://github.com/user-attachments/assets/39dd778c-5ae7-4f92-8d82-f31d3e376ea1)
+
+
+
 ## Data Collection
 The data collection process involves monitoring the system for a specified duration (e.g., 5 minutes) and recording the CPU and memory usage for each application, as well as the battery status.
 
