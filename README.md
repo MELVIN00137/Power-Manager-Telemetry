@@ -62,7 +62,7 @@ The data collection process involves monitoring the system for a specified durat
     - Simulate CPU usage limitations by adjusting process priorities to 80%, 50%, and 30%.
     - Collect and log the same telemetry data under these conditions.
       
-80%:
+**80% LIMITATION:**
 
 <img width="1293" alt="image" src="https://github.com/user-attachments/assets/60495136-e21b-4836-97ee-3449cd09a389">
 
@@ -71,7 +71,7 @@ The data collection process involves monitoring the system for a specified durat
 <img width="672" alt="image" src="https://github.com/user-attachments/assets/12ec63f4-886f-4beb-84fd-ac33702c17b3">
 
 
-50%:
+**50% LIMITATION:**
 
 <img width="1293" alt="image" src="https://github.com/user-attachments/assets/3bb23c1c-3def-40c7-b0b2-81b8dc0eacb4">
 
@@ -82,7 +82,7 @@ The data collection process involves monitoring the system for a specified durat
 
 
 
-30%:
+**30% LIMITATION:**
 
 <img width="1293" alt="image" src="https://github.com/user-attachments/assets/4b717192-fe72-4b92-842e-547d2e1a6698">
 
